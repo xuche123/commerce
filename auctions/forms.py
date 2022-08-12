@@ -4,7 +4,7 @@ from django.forms import ModelForm
 class ListingForm(ModelForm):
     class Meta:
         model = Listing
-        fields = ['title', 'desc', 'image', 'category' , 'user', 'start_time', 'end_time', 'starting_price']
+        fields = ['title', 'desc', 'image', 'category' , 'starting_price']
 
 class CommentForm(ModelForm):
     class Meta:

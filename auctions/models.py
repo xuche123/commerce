@@ -13,8 +13,8 @@ class Listing(models.Model):
     category = models.CharField(max_length=64)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sales")
     time_created = models.DateTimeField(auto_now_add=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    # start_time = models.DateTimeField()
+    # end_time = models.DateTimeField()
     starting_price = models.DecimalField(max_digits=12, decimal_places=2)
 
 class Comment(models.Model):
