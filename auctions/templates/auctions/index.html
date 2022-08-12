@@ -1,15 +1,38 @@
-{% extends "auctions/layout.html" %}
+{% extends "auctions/layout.html" %} {% load static %} {% block body %}
+<h2>Active Listings</h2>
 
-{% block body %}
-    <h2>Active Listings</h2>
-
+<div class="row row-cols-1 row-cols-md-3 g-4">
     {% for listing in listings %}
-    <ul>
-        <li> {{ listing.title }}</li>
-    </ul>
+    <div class="col">
+        <div class="card h-100">
+            <img
+                src="{%  static 'auctions/sample.jpg' %}"
+                class="card-img-top"
+                alt="..."
+            />
+            <div class="card-body">
+                <h4 class="card-title">{{ listing.title }}</h4>
+                <h5 class="card-title">Price: ${{ listing.starting_price }}</h5>
+                <p class="card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    eu mauris quis est sodales vulputate. Etiam auctor ex et
+                    elit molestie, in varius odio volutpat. Nulla euismod lectus
+                    id massa eleifend lacinia. Mauris commodo rhoncus augue a
+                    faucibus. Duis condimentum risus a velit dignissim, a
+                    malesuada neque vehicula. Duis diam eros, egestas eu sapien
+                    vitae, sagittis dictum quam. Vestibulum faucibus accumsan
+                    velit, eget viverra quam. Nam pretium laoreet ligula, et
+                    egestas nunc sodales eu. Aliquam a libero in lorem congue
+                    euismod. Cras vel quam pulvinar orci suscipit convallis
+                    posuere id nisi. Nam iaculis, nunc vitae sollicitudin
+                    scelerisque, dui nibh suscipit
+                </p>
+                <a href="#" class="btn btn-primary">Bid</a>
+            </div>
+        </div>
+    </div>
     {% empty %}
-    <ul>
-    <li> No listing</li>
-    </ul>
+    <h1>No listings!</h1>
     {% endfor%}
+</div>
 {% endblock %}
