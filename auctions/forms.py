@@ -1,5 +1,5 @@
 from .models import Bid, Comment, Listing
-from django.forms import ModelForm, TextInput, Textarea, NumberInput, ClearableFileInput
+from django.forms import ModelForm, TextInput, Textarea, NumberInput, URLInput
 
 
 class ListingForm(ModelForm):
@@ -13,7 +13,7 @@ class ListingForm(ModelForm):
             'desc': Textarea(attrs={
                 'class': "form-control",
             }),
-            'image': ClearableFileInput(attrs={
+            'image': URLInput(attrs={
                 'class': "form-control",
             }),
             'category': TextInput(attrs={
