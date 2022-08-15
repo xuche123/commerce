@@ -5,7 +5,7 @@ from django.forms import ModelForm, TextInput, Textarea, NumberInput, URLInput
 class ListingForm(ModelForm):
     class Meta:
         model = Listing
-        fields = ['title', 'desc', 'image', 'category', 'starting_price']
+        fields = ['title', 'desc', 'image_url', 'category', 'starting_price']
         widgets = {
             'title': TextInput(attrs={
                 'class': "form-control",
@@ -13,7 +13,7 @@ class ListingForm(ModelForm):
             'desc': Textarea(attrs={
                 'class': "form-control",
             }),
-            'image': URLInput(attrs={
+            'image_url': URLInput(attrs={
                 'class': "form-control",
             }),
             'category': TextInput(attrs={

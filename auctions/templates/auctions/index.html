@@ -5,14 +5,12 @@
     {% for listing in listings %}
     <div class="col">
         <div class="card h-100">
-            <img
-                src="{%  static 'auctions/sample.jpg' %}"
-                class="card-img-top"
-                alt="..."
-            />
+            <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
             <div class="card-body">
                 <h4 class="card-title">{{ listing.title }}</h4>
-                <h5 class="card-title">Current Price: ${{ listing.starting_price }}</h5>
+                <h5 class="card-title">
+                    Current Price: ${{ listing.starting_price }}
+                </h5>
                 <p class="card-text">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                     eu mauris quis est sodales vulputate. Etiam auctor ex et
