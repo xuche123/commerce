@@ -1,4 +1,3 @@
-from sre_parse import CATEGORIES
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 

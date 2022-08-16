@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %} {% block body %}
+
+<div class="card" style="width: auto">
+    <div class="card-body">
+        <h1>{{ listing.title }}</h1>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <img src="{{ listing.image_url }}" alt="..." />
+        </li>
+        <li class="list-group-item">Description: {{ listing.desc }}</li>
+        <li class="list-group-item">Category: {{ listing.get_category_display }}</li>
+        <li class="list-group-item">Created By: {{ listing.user }}</li>
+        <li class="list-group-item">
+            Time Created: {{ listing.time_created }}
+        </li>
+        <li class="list-group-item">
+            Current Price: ${{ listing.starting_price }}
+        </li>
+    </ul>
+</div>
+{%endblock%}

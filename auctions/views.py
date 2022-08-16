@@ -13,7 +13,7 @@ from .models import User, Listing, Bid, Comment
 def index(request):
     listings = Listing.objects.all()
     return render(request, "auctions/index.html", {
-        'listings' : listings
+        'listings': listings
     })
 
 
@@ -68,6 +68,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+
 @login_required(login_url='/login')
 def create(request):
     if request.method == "POST":
@@ -80,3 +81,18 @@ def create(request):
         listing_form = ListingForm()
 
         return render(request, 'auctions/create.html', {'form': listing_form})
+
+
+def listing(request, id):
+    listing = Listing.objects.get(pk=id)
+    return render(request, 'auctions/listing.html', {
+        "listing": listing
+    })
+    
+def bid(request, id):
+    if request.method == "POST":
+        amount = request.POST["price"]
+        listing = Listing.objects.get(id=id)
+        user = request.user
+        bid = Bid(listing=listing, user=user)
+    pass
