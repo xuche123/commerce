@@ -1,5 +1,5 @@
 from .models import Bid, Comment, Listing
-from django.forms import ModelForm, TextInput, Textarea, NumberInput, URLInput
+from django.forms import ModelForm, TextInput, Textarea, NumberInput, URLInput, Select
 
 
 class ListingForm(ModelForm):
@@ -16,8 +16,8 @@ class ListingForm(ModelForm):
             'image_url': URLInput(attrs={
                 'class': "form-control",
             }),
-            'category': TextInput(attrs={
-                'class': "form-control",
+            'category': Select(attrs={
+                'class': "form-select",
             }),
             'starting_price': NumberInput(attrs={
                 'class': "form-control",
