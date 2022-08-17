@@ -6,7 +6,7 @@
     </div>
     <ul class="list-group">
         <li class="list-group-item">
-            <img src="{{ listing.image_url }}" alt="..." />
+            <img class="img" src="{{ listing.image_url }}" alt="..." />
         </li>
         <li class="list-group-item">Description: {{ listing.desc }}</li>
         <li class="list-group-item">Category: {{ listing.get_category_display }}</li>
@@ -17,6 +17,7 @@
         <li class="list-group-item">
             Current Price: ${{ listing.starting_price }}
         </li>
+        <li class="list-group-item"><a href="{% url 'bid' listing.id %}">Bid for this item</a></li>
     </ul>
 </div>
 {%endblock%}

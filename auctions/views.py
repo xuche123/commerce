@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from auctions.forms import ListingForm
+from auctions.forms import BidForm, ListingForm
 
 from .models import User, Listing, Bid, Comment
 
@@ -19,7 +20,6 @@ def index(request):
 
 def login_view(request):
     if request.method == "POST":
-
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
@@ -79,8 +79,11 @@ def create(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         listing_form = ListingForm()
-
-        return render(request, 'auctions/create.html', {'form': listing_form})
+        bid_form = BidForm()
+        return render(request, 'auctions/create.html', {
+            'form': listing_form,
+            'form2' : bid_form
+        })
 
 
 def listing(request, id):
@@ -88,11 +91,26 @@ def listing(request, id):
     return render(request, 'auctions/listing.html', {
         "listing": listing
     })
-    
+
+@login_required(login_url='/login')    
 def bid(request, id):
+    listing = Listing.objects.get(pk=id)
     if request.method == "POST":
         amount = request.POST["price"]
         listing = Listing.objects.get(id=id)
         user = request.user
         bid = Bid(listing=listing, user=user)
-    pass
+        if int(amount) >= listing.starting_price:
+            bid_form = BidForm(request.POST, instance=bid)
+            bid = bid_form.save()
+        else:
+            raise ValidationError('Bid must be greater than the starting price!')
+        return render(request, 'auctions/listing.html', {
+            "listing": listing
+    })
+    else:
+        bid_form = BidForm()
+        return render(request, 'auctions/bid.html', {
+            'listing' : listing,
+            'form' : bid_form
+        })

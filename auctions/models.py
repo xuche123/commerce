@@ -37,3 +37,6 @@ class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
     price = models.DecimalField(max_digits=12,decimal_places=2)
+    
+    class Meta:
+        ordering = ('price',)
