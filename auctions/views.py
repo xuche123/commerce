@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from auctions.forms import BidForm, ListingForm
+from auctions.forms import BidForm, ListingForm, CommentForm
 
 from .models import User, Listing, Bid, Comment
 
@@ -88,10 +88,14 @@ def listing(request, id):
     listing = Listing.objects.get(pk=id)
     bid_form = BidForm()
     bids = listing.bids.all()
+    comment_form = CommentForm()
+    comments = listing.comments.all()
     return render(request, 'auctions/listing.html', {
         "listing": listing,
         "bid_form" : bid_form,
-        "bids" : bids
+        "bids" : bids,
+        "comment_form" : comment_form,
+        'comments' : comments
     })
 
 @login_required(login_url='/login')    
@@ -99,7 +103,6 @@ def bid(request, id):
     listing = Listing.objects.get(pk=id)
     if request.method == "POST":
         amount = request.POST["price"]
-        listing = Listing.objects.get(id=id)
         user = request.user
         bid = Bid(listing=listing, user=user)
         bids = listing.bids.all()
@@ -113,5 +116,19 @@ def bid(request, id):
         bid_form = BidForm(request.POST, instance=bid)
         if bid_form.is_valid():
             bid = bid_form.save()
+
+    return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
+
+
+@login_required(login_url='/login')    
+def comment(request, id):
+    listing = Listing.objects.get(pk=id)
+    if request.method == "POST":
+        user = request.user
+        comment = Comment(listing=listing, user=user)
+        
+        comment_form = CommentForm(request.POST, instance=comment)
+        if comment_form.is_valid():
+            comment = comment_form.save()
             
     return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))

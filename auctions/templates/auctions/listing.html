@@ -40,4 +40,24 @@
     </div>
 </form>
 
+<h2>Leave a comment</h2>
+<form action="{% url 'comment' listing.id  %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">{{ comment_form }}</div>
+
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+
+<h2> Comments </h2>
+{% for comment in comments %} 
+<ul>
+    <li>{{ comment.content }}</li>
+    <li> {{ comment.user }} : {{ comment.time }}
+</ul>
+{% empty %}
+<li>No Comments yet! Be the first!</li>
+{% endfor %}
+
 {%endblock%}
