@@ -9,7 +9,9 @@
             <img class="img" src="{{ listing.image_url }}" alt="..." />
         </li>
         <li class="list-group-item">Description: {{ listing.desc }}</li>
-        <li class="list-group-item">Category: {{ listing.get_category_display }}</li>
+        <li class="list-group-item">
+            Category: {{ listing.get_category_display }}
+        </li>
         <li class="list-group-item">Created By: {{ listing.user }}</li>
         <li class="list-group-item">
             Time Created: {{ listing.time_created }}
@@ -17,7 +19,25 @@
         <li class="list-group-item">
             Current Price: ${{ listing.starting_price }}
         </li>
-        <li class="list-group-item"><a href="{% url 'bid' listing.id %}">Bid for this item</a></li>
     </ul>
 </div>
+
+{% for bid in bids %} 
+<ul>
+    <li>{{ bid.user }} made a bid of ${{ bid.price }}</li>
+</ul>
+{% empty %}
+<li>No bids yet! Be the first!</li>
+{% endfor %}
+
+<h2>Bid for Item</h2>
+<form action="{% url 'bid' listing.id  %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">{{ bid_form }}</div>
+
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+
 {%endblock%}

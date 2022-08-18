@@ -79,17 +79,19 @@ def create(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         listing_form = ListingForm()
-        bid_form = BidForm()
         return render(request, 'auctions/create.html', {
             'form': listing_form,
-            'form2' : bid_form
         })
 
 
 def listing(request, id):
     listing = Listing.objects.get(pk=id)
+    bid_form = BidForm()
+    bids = listing.bids.all()
     return render(request, 'auctions/listing.html', {
-        "listing": listing
+        "listing": listing,
+        "bid_form" : bid_form,
+        "bids" : bids
     })
 
 @login_required(login_url='/login')    
@@ -100,17 +102,16 @@ def bid(request, id):
         listing = Listing.objects.get(id=id)
         user = request.user
         bid = Bid(listing=listing, user=user)
-        if int(amount) >= listing.starting_price:
-            bid_form = BidForm(request.POST, instance=bid)
-            bid = bid_form.save()
-        else:
+        bids = listing.bids.all()
+        if bids:
+            highest_bid = listing.bids.all()[0].price
+            if int(amount) <= highest_bid:
+                raise ValidationError('Bid must be greater than the other bids!')
+        if int(amount) < listing.starting_price:
             raise ValidationError('Bid must be greater than the starting price!')
-        return render(request, 'auctions/listing.html', {
-            "listing": listing
-    })
-    else:
-        bid_form = BidForm()
-        return render(request, 'auctions/bid.html', {
-            'listing' : listing,
-            'form' : bid_form
-        })
+        
+        bid_form = BidForm(request.POST, instance=bid)
+        if bid_form.is_valid():
+            bid = bid_form.save()
+            
+    return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
