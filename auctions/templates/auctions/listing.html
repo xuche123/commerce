@@ -1,63 +1,81 @@
 {% extends "auctions/layout.html" %} {% block body %}
 
-<div class="card" style="width: auto">
-    <div class="card-body">
-        <h1>{{ listing.title }}</h1>
+<div class="container">
+    <div class="card" style="width: auto">
+        <div class="card-body">
+            <h1>{{ listing.title }}</h1>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <img class="img" src="{{ listing.image_url }}" alt="..." />
+            </li>
+            <li class="list-group-item">Description: {{ listing.desc }}</li>
+            <li class="list-group-item">
+                Category: {{ listing.get_category_display }}
+            </li>
+            <li class="list-group-item">Created By: {{ listing.user }}</li>
+            <li class="list-group-item">
+                Time Created: {{ listing.time_created }}
+            </li>
+            <li class="list-group-item">
+                Current Price: ${{ listing.starting_price }}
+            </li>
+        </ul>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <img class="img" src="{{ listing.image_url }}" alt="..." />
-        </li>
-        <li class="list-group-item">Description: {{ listing.desc }}</li>
-        <li class="list-group-item">
-            Category: {{ listing.get_category_display }}
-        </li>
-        <li class="list-group-item">Created By: {{ listing.user }}</li>
-        <li class="list-group-item">
-            Time Created: {{ listing.time_created }}
-        </li>
-        <li class="list-group-item">
-            Current Price: ${{ listing.starting_price }}
-        </li>
+
+    {% for bid in bids %}
+    <ul>
+        <li>{{ bid.user }} made a bid of ${{ bid.price }}</li>
     </ul>
+    {% empty %}
+    <li>No bids yet! Be the first!</li>
+    {% endfor %}
+
+    <h2>Bid for Item</h2>
+    <form action="{% url 'bid' listing.id  %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">{{ bid_form }}</div>
+
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+    </form>
+    <div class="row d-flex justify-content-center">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-start w-100">
+                    <div class="w-100">
+                        <h5>Leave a comment</h5>
+                        <form
+                            action="{% url 'comment' listing.id  %}"
+                            method="post"
+                        >
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ comment_form.content }}
+                            </div>
+                            <div class="form-group">
+                                <input
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    value="Submit"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Comments</h2>
+    {% for comment in comments %}
+    <ul>
+        <li>{{ comment.content }}</li>
+        <li>{{ comment.user }} : {{ comment.time }}</li>
+    </ul>
+
+    {% empty %}
+    <li>No Comments yet! Be the first!</li>
+    {% endfor %} {%endblock%}
 </div>
-
-{% for bid in bids %} 
-<ul>
-    <li>{{ bid.user }} made a bid of ${{ bid.price }}</li>
-</ul>
-{% empty %}
-<li>No bids yet! Be the first!</li>
-{% endfor %}
-
-<h2>Bid for Item</h2>
-<form action="{% url 'bid' listing.id  %}" method="post">
-    {% csrf_token %}
-    <div class="form-group">{{ bid_form }}</div>
-
-    <div class="form-group">
-        <input class="btn btn-primary" type="submit" value="Submit" />
-    </div>
-</form>
-
-<h2>Leave a comment</h2>
-<form action="{% url 'comment' listing.id  %}" method="post">
-    {% csrf_token %}
-    <div class="form-group">{{ comment_form }}</div>
-
-    <div class="form-group">
-        <input class="btn btn-primary" type="submit" value="Submit" />
-    </div>
-</form>
-
-<h2> Comments </h2>
-{% for comment in comments %} 
-<ul>
-    <li>{{ comment.content }}</li>
-    <li> {{ comment.user }} : {{ comment.time }}
-</ul>
-{% empty %}
-<li>No Comments yet! Be the first!</li>
-{% endfor %}
-
-{%endblock%}

@@ -29,6 +29,13 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+        widgets = {
+            'content': Textarea(attrs={
+                'class': "form-control",
+                'rows' : 5,
+                'placeholder' : 'write your comment here....'
+            }),
+        }
 
 
 class BidForm(ModelForm):
