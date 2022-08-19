@@ -42,3 +42,8 @@ class BidForm(ModelForm):
     class Meta:
         model = Bid
         fields = ['price']
+        widgets = {
+            'price': NumberInput(attrs={
+                'class': "form-control",
+            }),
+        }

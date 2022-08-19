@@ -31,7 +31,7 @@
     <li>No bids yet! Be the first!</li>
     {% endfor %}
 
-    <h2>Bid for Item</h2>
+    <h4>Bid for Item</h4>
     <form action="{% url 'bid' listing.id  %}" method="post">
         {% csrf_token %}
         <div class="form-group">{{ bid_form }}</div>
@@ -40,12 +40,13 @@
             <input class="btn btn-primary" type="submit" value="Submit" />
         </div>
     </form>
+    <br />
     <div class="row d-flex justify-content-center">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex flex-start w-100">
                     <div class="w-100">
-                        <h5>Leave a comment</h5>
+                        <h4>Leave a comment</h4>
                         <form
                             action="{% url 'comment' listing.id  %}"
                             method="post"
@@ -67,15 +68,41 @@
             </div>
         </div>
     </div>
+    <br />
+    <div class="row d-flex justify-content-center">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-0">Comments</h4>
+                {% for comment in comments %}
 
-    <h2>Comments</h2>
-    {% for comment in comments %}
-    <ul>
-        <li>{{ comment.content }}</li>
-        <li>{{ comment.user }} : {{ comment.time }}</li>
-    </ul>
+                <hr class="my-0" style="height: 1px" />
 
-    {% empty %}
-    <li>No Comments yet! Be the first!</li>
-    {% endfor %} {%endblock%}
+                <div class="card-body p-4">
+                    <div class="d-flex flex-start">
+                        <div>
+                            <h6 class="fw-bold mb-1">{{ comment.user }}</h6>
+                            <div class="d-flex align-items-center mb-3">
+                                <p class="mb-0">{{ comment.time }}</p>
+                            </div>
+                            <p class="mb-0">{{ comment.content }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <hr class="my-0" style="height: 1px" />
+
+                <div class="card-body p-4">
+                    <div class="d-flex flex-start">
+                        <div>
+                            <h5 class="fw-bold">
+                                No comments! Be the first!
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
+{%endblock%}

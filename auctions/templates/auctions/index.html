@@ -1,28 +1,28 @@
 {% extends "auctions/layout.html" %} {% load static %} {% block body %}
 <div class="container">
-<h2>Active Listings</h2>
+    <h2>Active Listings</h2>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for listing in listings %}
-    <div class="col">
-        <div class="card h-100">
-            <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
-            <div class="card-body">
-                <h4 class="card-title">{{ listing.title }}</h4>
-                <h5 class="card-title">
-                    Current Price: ${{ listing.starting_price }}
-                </h5>
-                <p class="card-text">
-                    {{ listing.desc}}
-                </p>
-                <a href="#" class="btn btn-primary">Bid</a>
-                <a href= {% url 'listing' listing.id %} class="btn btn-primary">View</a>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for listing in listings %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
+                <div class="card-body">
+                    <h4 class="card-title">{{ listing.title }}</h4>
+                    <h5 class="card-title">
+                        Current Price: ${{ listing.starting_price }}
+                    </h5>
+                    <p class="card-text">
+                        {{ listing.desc}}
+                    </p>
+                    <a href="#" class="btn btn-primary">Bid</a>
+                    <a href= {% url 'listing' listing.id %} class="btn btn-primary">View</a>
+                </div>
             </div>
         </div>
+        {% empty %}
+        <h1>No listings!</h1>
+        {% endfor%}
     </div>
-    {% empty %}
-    <h1>No listings!</h1>
-    {% endfor%}
-</div>
 </div>
 {% endblock %}
