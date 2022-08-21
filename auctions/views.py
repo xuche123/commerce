@@ -92,13 +92,14 @@ def listing(request, id):
     comments = listing.comments.all()
     return render(request, 'auctions/listing.html', {
         "listing": listing,
-        "bid_form" : bid_form,
-        "bids" : bids,
-        "comment_form" : comment_form,
-        'comments' : comments
+        "bid_form": bid_form,
+        "bids": bids,
+        "comment_form": comment_form,
+        'comments': comments
     })
 
-@login_required(login_url='/login')    
+
+@login_required(login_url='/login')
 def bid(request, id):
     listing = Listing.objects.get(pk=id)
     if request.method == "POST":
@@ -109,10 +110,12 @@ def bid(request, id):
         if bids:
             highest_bid = listing.bids.all()[0].price
             if int(amount) <= highest_bid:
-                raise ValidationError('Bid must be greater than the other bids!')
+                raise ValidationError(
+                    'Bid must be greater than the other bids!')
         if int(amount) < listing.starting_price:
-            raise ValidationError('Bid must be greater than the starting price!')
-        
+            raise ValidationError(
+                'Bid must be greater than the starting price!')
+
         bid_form = BidForm(request.POST, instance=bid)
         if bid_form.is_valid():
             bid = bid_form.save()
@@ -120,15 +123,23 @@ def bid(request, id):
     return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
 
 
-@login_required(login_url='/login')    
+@login_required(login_url='/login')
 def comment(request, id):
     listing = Listing.objects.get(pk=id)
     if request.method == "POST":
         user = request.user
         comment = Comment(listing=listing, user=user)
-        
+
         comment_form = CommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
             comment = comment_form.save()
-            
+
     return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
+
+
+def watchlist(request):
+    user = request.user
+    listings = Listing.objects.all()
+    return render(request, "auctions/index.html", {
+        'listings': listings
+    })

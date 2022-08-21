@@ -1,46 +1,61 @@
 {% extends "auctions/layout.html" %} {% block body %}
 
 <div class="container">
-    <div class="card" style="width: auto">
-        <div class="card-body">
-            <h1>{{ listing.title }}</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src= {{ listing.image_url }} class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ listing.title }} ${{ listing.starting_price}}</h3>
+                        <h5 class="card-text">{{ listing.get_category_display }}</h5>
+                        <p class="card-text">{{ listing.desc }}</p>
+                        <p class="card-text"><small class="text-muted">{{ listing.user }} {{ listing.time_created }}</small></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <img class="img" src="{{ listing.image_url }}" alt="..." />
-            </li>
-            <li class="list-group-item">Description: {{ listing.desc }}</li>
-            <li class="list-group-item">
-                Category: {{ listing.get_category_display }}
-            </li>
-            <li class="list-group-item">Created By: {{ listing.user }}</li>
-            <li class="list-group-item">
-                Time Created: {{ listing.time_created }}
-            </li>
-            <li class="list-group-item">
-                Current Price: ${{ listing.starting_price }}
-            </li>
-        </ul>
     </div>
 
-    {% for bid in bids %}
-    <ul>
-        <li>{{ bid.user }} made a bid of ${{ bid.price }}</li>
-    </ul>
-    {% empty %}
-    <li>No bids yet! Be the first!</li>
-    {% endfor %}
+    </br>
 
-    <h4>Bid for Item</h4>
-    <form action="{% url 'bid' listing.id  %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">{{ bid_form }}</div>
-
-        <div class="form-group">
-            <input class="btn btn-primary" type="submit" value="Submit" />
+    <div class="row d-flex justify-content-center">
+        <div class="card">
+            <div class="card-header">Current Bids</div>
+            <div class="card-body">
+            <ul class="list-group"></ul>
+            {% for bid in bids %}     
+                <li class="list-group-item">{{ bid.user }} made a bid of ${{ bid.price }}</li>
+            {% empty %}
+            <li class="list-group-item">No bids yet! Be the first!</li>
+            {% endfor %}
+            </ul>
+            </div>
         </div>
-    </form>
+    </div>
+
+    </br>
+
+    <div class="row d-flex justify-content-center">
+        <div class="card">
+            <div class="card-body">
+            <h4>Bid for Item</h4>
+            <form action="{% url 'bid' listing.id  %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">{{ bid_form }}</div>
+
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Submit" />
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
     <br />
+
     <div class="row d-flex justify-content-center">
         <div class="card">
             <div class="card-body">
