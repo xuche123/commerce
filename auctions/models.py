@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
+    watchlist = models.ManyToManyField('Listing', related_name='watchlist', blank='true')
     pass
 
 class Listing(models.Model):
@@ -26,6 +27,8 @@ class Listing(models.Model):
     # start_time = models.DateTimeField()
     # end_time = models.DateTimeField()
     starting_price = models.DecimalField(max_digits=12, decimal_places=2)
+    active = models.BooleanField(default=True)
+    winner = models.CharField(max_length=100, blank=True, null=True)
 
 class Comment(models.Model):
     content = models.TextField()

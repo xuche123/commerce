@@ -136,10 +136,16 @@ def comment(request, id):
 
     return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
 
-
+@login_required(login_url='/login')
 def watchlist(request):
     user = request.user
-    listings = Listing.objects.all()
-    return render(request, "auctions/index.html", {
-        'listings': listings
+    watchlist = user.watchlist.all()
+    return render(request, "auctions/watchlist.html", {
+        'watchlist': watchlist
     })
+
+def watch(request, id):
+    listing = Listing.objects.get(pk=id)
+    request.user.watchlist.add(listing)
+    request.user.save()
+    return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
