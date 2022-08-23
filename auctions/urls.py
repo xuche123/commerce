@@ -13,4 +13,5 @@ urlpatterns = [
     path("comment/<int:id>", views.comment, name="comment"),
     path("watchlist", views.watchlist, name="watchlist"),
     path("watch/<int:id>", views.watch, name="watch"),
+    path("unwatch/<int:id>", views.unwatch, name="unwatch"),
 ]

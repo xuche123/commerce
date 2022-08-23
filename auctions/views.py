@@ -144,8 +144,16 @@ def watchlist(request):
         'watchlist': watchlist
     })
 
+@login_required(login_url='/login')
 def watch(request, id):
     listing = Listing.objects.get(pk=id)
     request.user.watchlist.add(listing)
     request.user.save()
-    return HttpResponseRedirect(reverse('listing', kwargs={'id': id}))
+    return HttpResponseRedirect(reverse('index'))
+
+@login_required(login_url='/login')
+def unwatch(request, id):
+    listing = Listing.objects.get(pk=id)
+    request.user.watchlist.remove(listing)
+    request.user.save()
+    return HttpResponseRedirect(reverse('index'))

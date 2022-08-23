@@ -1,10 +1,26 @@
 {% extends "auctions/layout.html" %} {% block body %}
-<div class="container">
-  <h1>Watchlist</h1>
-  <ul>
-  {% for listing in watchlist %}
-    <li> {{ listing }} </li>
+
+<div class="container">  
+  <h2>Watchlist</h2>
+  <div class="row d-flex justify-content-center">
+  {% for listing in watchlist%}
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src= {{ listing.image_url }} class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"> {{ listing.title }}  ${{ listing.starting_price}}</h5>
+          <p class="card-text"> {{ listing.desc }}</p>
+          <p class="card-text"><small class="text-muted">{{ listing.user }}  {{ listing.time_created }}</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <h3> No items in your watchlist!</h3>
   {% endfor %}
-  </ul>
+  </div>  
 </div>
 {% endblock %}

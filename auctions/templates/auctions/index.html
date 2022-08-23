@@ -17,14 +17,17 @@
                     </p>
                 </div>
                 <div class="card-footer">
-                    <!-- <a href="#" class="btn btn-primary">Bid</a> -->
                     <a href= {% url 'listing' listing.id %} class="btn btn-primary">View</a>
-                    <a href= {% url 'watch' watch.id %} class="btn btn-primary">Watch</a>
+                    {% if listing in user.watchlist.all %}
+                    <a class="btn btn-primary" href="{% url 'unwatch' listing.id %}"><i class="bi bi-bookmark-heart-fill"></i> Remove From Watchlist</a>
+                    {% else %}
+                    <a class="btn btn-primary" href="{% url 'watch' listing.id %}"><i class="bi bi-bookmark-heart"></i> Add to Watchlist</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
         {% empty %}
-        <h1>No listings!</h1>
+        <h3>No listings!</h3>
         {% endfor%}
     </div>
 </div>
