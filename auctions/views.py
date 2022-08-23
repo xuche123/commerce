@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from auctions.forms import BidForm, ListingForm, CommentForm
 
-from .models import User, Listing, Bid, Comment
+from .models import User, Listing, Bid, Comment, CATEGORIES
 
 
 def index(request):
@@ -157,3 +157,13 @@ def unwatch(request, id):
     request.user.watchlist.remove(listing)
     request.user.save()
     return HttpResponseRedirect(reverse('index'))
+
+def categories(request):   
+    return render(request, "auctions/categories.html", {
+        'categories' : CATEGORIES
+    })
+
+def filter(request, category):
+    return render(request, 'auctions/filter.html', {
+        'listings' : Listing.objects.filter(category=category)
+    })

@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %} {% block body %}
+<div class="container">
+    <h1>Category</h1>
+    <ol class="list-group list-group-numbered">
+        {% for category in categories %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto"><a href= {% url 'filter' category.0 %}>{{ category.1 }}</a></div>
+        </li>
+        {% endfor %}
+      </ol>
+    
+</div>
+{% endblock %}
