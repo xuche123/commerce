@@ -43,10 +43,11 @@
             <div class="card-body">
             {% if listing.user == user %}
             <h4>Close Bid</h4>
+            <p>Current Bid: ${{ top_bid }}</p>
             <form action="{% url 'close' listing.id  %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <input class="btn btn-primary" type="submit" value="Submit" />
+                    <input class="btn btn-primary" type="submit" value="Close" />
                 </div>
             </form>
 
@@ -54,8 +55,8 @@
             <h4>Bid for Item</h4>
             <form action="{% url 'bid' listing.id  %}" method="post">
                 {% csrf_token %}
-                <div class="form-group">{{ bid_form }}</div>
-
+                <input required type="number" min="{{ top_bid }}" step="0.01" max="9999999999.99" class="form-control"
+                    name="price" placeholder="Current Bid: ${{ top_bid }}">
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="Submit" />
                 </div>

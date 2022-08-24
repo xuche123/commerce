@@ -88,6 +88,10 @@ def listing(request, id):
     listing = Listing.objects.get(pk=id)
     bid_form = BidForm()
     bids = listing.bids.all()
+    if len(bids):
+        top_bid = bids[0].price
+    else:
+        top_bid = listing.starting_price
     comment_form = CommentForm()
     comments = listing.comments.all()
     return render(request, 'auctions/listing.html', {
@@ -95,7 +99,8 @@ def listing(request, id):
         "bid_form": bid_form,
         "bids": bids,
         "comment_form": comment_form,
-        'comments': comments
+        'comments': comments,
+        'top_bid' : top_bid
     })
 
 

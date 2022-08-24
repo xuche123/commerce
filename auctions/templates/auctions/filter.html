@@ -3,6 +3,7 @@
 <div class="container">  
     <div class="row d-flex justify-content-center">
     {% for listing in listings %}
+    {% if listing.active %}
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4">
@@ -17,6 +18,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
     {% empty %}
     <h3> No items in this category!</h3>
     {% endfor %}
