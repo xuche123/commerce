@@ -11,12 +11,22 @@ CATEGORIES = [
         ('FUNITURE', 'Furniture'),
         ('GROCERIES', 'Groceries')
     ]
-    
+
 class User(AbstractUser):
     watchlist = models.ManyToManyField('Listing', related_name='watchlist', blank='true')
     pass
 
 class Listing(models.Model):
+    CATEGORIES = [
+        ('TOYSANDGAMES', 'Toys and Games'),
+        ('ELECTRONICS', 'Electronics'),
+        ('APPAREL', 'Apparel'),
+        ('HOMEAPPLIANCES', 'Home Appliances'),
+        ('BEAUTY', 'Beauty'),
+        ('HOUSEHOLDPRODUCTS', 'Household Products'),
+        ('FUNITURE', 'Furniture'),
+        ('GROCERIES', 'Groceries')
+    ]
     title = models.CharField(max_length=64)
     desc = models.TextField()
     image_url = models.URLField(blank=True)

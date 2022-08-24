@@ -4,6 +4,7 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for listing in listings %}
+        {% if listing.active %}
         <div class="col">
             <div class="card h-100">
                 <img src="{{ listing.image_url }}" class="card-img-top" alt="..." />
@@ -26,6 +27,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% empty %}
         <h3>No listings!</h3>
         {% endfor%}
