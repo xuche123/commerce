@@ -14,11 +14,10 @@
           <h5 class="card-title"> {{ listing.title }}  ${{ listing.starting_price}}</h5>
           <p class="card-text"> {{ listing.desc }}</p>
           <p class="card-text"><small class="text-muted">{{ listing.user }}  {{ listing.time_created }}</small></p>
-        </div>
-        <div class="card-footer">
-          <a href= {% url 'listing' listing.id %} class="btn btn-primary">View</a>
-        </div>
+        </div>       
       </div>
+      <div class="card-footer">
+        <a href= {% url 'listing' listing.id %} class="btn btn-primary">View</a>
       </div>
     </div>
   </div>
