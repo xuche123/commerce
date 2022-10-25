@@ -41,6 +41,7 @@
     <div class="row d-flex justify-content-center">
         <div class="card">
             <div class="card-body">
+            {% if listing.active %}
             {% if listing.user == user %}
             <h4>Close Bid</h4>
             <p>Current Bid: ${{ top_bid }}</p>
@@ -61,6 +62,14 @@
                     <input class="btn btn-primary" type="submit" value="Submit" />
                 </div>
             </form>
+            {% endif %}
+            {% else %}
+                <h4>Listing Closed</h4>
+                {% if listing.winner == user.username %}                
+                    <p>You won this listing!</p>
+                {% else %}
+                    <p>Winner: {{ listing.winner }}</p>
+                {% endif %}
             {% endif %}
             </div>
         </div>

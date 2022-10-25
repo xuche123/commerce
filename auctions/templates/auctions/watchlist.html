@@ -15,6 +15,14 @@
           <p class="card-text"> {{ listing.desc }}</p>
           <p class="card-text"><small class="text-muted">{{ listing.user }}  {{ listing.time_created }}</small></p>
         </div>
+        <div class="card-footer">
+          <a href= {% url 'listing' listing.id %} class="btn btn-primary">View</a>
+          {% if listing in user.watchlist.all %}
+          <a class="btn btn-primary" href="{% url 'unwatch' listing.id %}"><i class="bi bi-bookmark-heart-fill"></i> Remove From Watchlist</a>
+          {% else %}
+          <a class="btn btn-primary" href="{% url 'watch' listing.id %}"><i class="bi bi-bookmark-heart"></i> Add to Watchlist</a>
+          {% endif %}
+      </div>
       </div>
     </div>
   </div>
